@@ -75,6 +75,14 @@ public class TimeClientHandle implements Runnable {
             }
 
         }
+
+        if (selector != null) {
+            try {
+                selector.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void doConnect() throws IOException {

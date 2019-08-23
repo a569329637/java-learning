@@ -16,8 +16,12 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * @author guishangquan
- * @date 2019-08-22
+ * SelectionKey:
+ * SelectionKey.OP_ACCEPT       接收就绪（当做服务端时）
+ * SelectionKey.OP_CONNECT      连接就绪（当做客户端时）
+ * SelectionKey.OP_READ         读就绪
+ * SelectionKey.OP_WRITE        写就绪
+ *
  */
 public class MultiplexerTimeServer implements Runnable {
 
@@ -33,10 +37,11 @@ public class MultiplexerTimeServer implements Runnable {
         try {
             ssc = ServerSocketChannel.open();
             ssc.socket().bind(new InetSocketAddress(port));
-            ssc.configureBlocking(false);
+            ssc.configureBlocking(false);// 配置非阻塞
 
             selector = Selector.open();
 
+            // ssc在selector上注册接收就绪事件
             ssc.register(selector, SelectionKey.OP_ACCEPT);
 
             System.out.println("The time server is start in port: " + port);
@@ -87,18 +92,18 @@ public class MultiplexerTimeServer implements Runnable {
 
     private void handleInput(SelectionKey selectionKey) throws IOException {
         if (selectionKey.isValid()) {
-            // 处理新接入的请求
+            // 处理接收就绪，
             if (selectionKey.isAcceptable()) {
-                ServerSocketChannel ssc = (ServerSocketChannel) selectionKey.channel();
-                SocketChannel sc = ssc.accept();
+                ServerSocketChannel ssc = (ServerSocketChannel) selectionKey.channel();//channel是ssc
+                SocketChannel sc = ssc.accept();//获取sc
                 sc.configureBlocking(false);
-                // 注册新的连接到selector
+                // sc在selector上注册读就绪事件
                 sc.register(selector, SelectionKey.OP_READ);
             }
 
             // 处理可以读的channel
             if (selectionKey.isReadable()) {
-                SocketChannel sc = (SocketChannel) selectionKey.channel();
+                SocketChannel sc = (SocketChannel) selectionKey.channel();//channel是sc
 
                 ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
                 int readBytes = sc.read(byteBuffer);
