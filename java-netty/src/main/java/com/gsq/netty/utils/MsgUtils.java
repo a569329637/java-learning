@@ -8,4 +8,5 @@ public class MsgUtils {
 
     public static String QUERY_TIME_ORDER = "QUERY TIME ORDER";
 
+    public static String LINE_SEPARATOR = "\r\n";
 }
