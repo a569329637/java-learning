@@ -1,0 +1,11 @@
+package com.gsq.netty.utils;
+
+/**
+ * @author guishangquan
+ * @date 2019-08-23
+ */
+public class MsgUtils {
+
+    public static String QUERY_TIME_ORDER = "QUERY TIME ORDER";
+
+}

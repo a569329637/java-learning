@@ -8,4 +8,6 @@ public class CharsetUtils {
 
     public static String GBK = "gbk";
 
+    public static String UTF8 = "UTF-8";
+
 }
