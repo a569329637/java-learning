@@ -23,6 +23,8 @@ import java.util.Objects;
  */
 public class HttpFileServer {
 
+    private static final String DEFAULT_URL = "/src/main/java/com/gsq";
+
     public static void main(String[] args) {
         int port = 8080;
         if (args != null && args.length > 0) {
@@ -67,6 +69,8 @@ public class HttpFileServer {
 
             ChannelFuture f = serverBootstrap.bind(port).sync();
 
+            System.out.println("Http服务器已经启动，请访问：http://127.0.0.1:8080" + DEFAULT_URL);
+
             f.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -83,7 +87,6 @@ public class HttpFileServer {
 class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     private static final String MODULE = "java-netty";
-    private static final String DEFAULT_URL = "/src/main/java/com/gsq";
     private static final String BR = "</br>";
     private static final String SPACE = "&nbsp&nbsp&nbsp&nbsp&nbsp";
 
